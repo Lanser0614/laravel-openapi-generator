@@ -1,8 +1,10 @@
 {
     "name": "lanser/laravel-openapi-generator",
-    "version": "1.0.2",
+    "version": "1.0.3",
+    "type": "library",
     "description": "Api swagger docs generater with spatia Laravel data",
     "require": {
+        "php": "^8.1",
         "spatie/laravel-data": "^4.6",
         "phpdocumentor/reflection-docblock": "^5.4",
         "laravel/framework": "^10.48",
@@ -14,11 +16,17 @@
             "Lanser\\LaravelApiGenerator\\": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lanser\\LaravelApiGenerator\\OpenApiServiceProvider"
+            ]
+        }
+    },
     "authors": [
         {
             "name": "lanser"
         }
     ],
-    "minimum-stability" : "dev",
-    "prefer-stable" : true
+    "minimum-stability": "stable"
 }
