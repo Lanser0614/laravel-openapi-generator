@@ -30,9 +30,10 @@ class OpenApi extends Data
     }
 
     /**
-     * @param class-string<Data> $schema
+     * @param string $name
+     * @param string $schema
      */
-    public static function addClassSchema(string $name, $schema): void
+    public static function addClassSchema(string $name, string $schema): void
     {
         static::$temp_schemas[$name] = $schema;
     }
@@ -64,11 +65,15 @@ class OpenApi extends Data
 
                     $paths[$uri][$method] = Operation::fromRoute($route);
 
+                    if ($route->getName()) {
+                        $paths[$uri][$method]->tags = [$uri => $route->getName()];
+                    }
+
 
                     self::addTempSchemas();
 
                 } catch (Throwable $th) {
-                    $command->error("Failed to generate Operation from route {$method} {$route->getName()} {$uri}: {$th->getMessage()}");
+                    $command->error("Failed to generate Operation from route $method {$route->getName()} $uri: {$th->getMessage()}");
 
                     Log::error($th);
                 }
@@ -133,8 +138,19 @@ class OpenApi extends Data
                 new stdClass(),
         ];
 
+        foreach ($this->paths as $path) {
+            $object = $path;
+            $first = array_shift($object);
+            if ($first->tags != null) {
+                $uri = array_key_first($first->tags);
+                $value = array_values($first->tags);
+                $key = array_key_first($paths['paths'][$uri]);
+                $paths['paths'][$uri][$key]['tags'] = $value;
+            }
+        }
+
         return array_merge(
-            parent::transform($transformationContext, $wrapExecutionType, $mapPropertyNames),
+            parent::transform($transformationContext),
             $paths,
             [
                 'components' => [

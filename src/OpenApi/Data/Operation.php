@@ -18,6 +18,8 @@ use Spatie\LaravelData\Support\Wrapping\WrapExecutionType;
 
 class Operation extends Data
 {
+    public ?array $tags = null;
+
     public function __construct(
         public ?string $description,
         /** @var null|DataCollection<int,Parameter> */
@@ -37,6 +39,7 @@ class Operation extends Data
      * @param Route $route
      * @return Operation
      * @throws ReflectionException
+     * @throws Exception
      */
     public static function fromRoute(Route $route): self
     {
@@ -79,7 +82,7 @@ class Operation extends Data
             parameters: Parameter::fromRoute($route, $controller_function),
             requestBody: RequestBody::fromRoute($controller_function),
             responses: Response::collect($responses, DataCollection::class),
-            security: $security,
+            security: $security
         );
     }
 

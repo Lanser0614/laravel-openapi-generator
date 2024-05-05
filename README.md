@@ -93,3 +93,20 @@ class UserResponse extends ResponseData
 
 ### Final result
 ![img.png](img.png)
+
+
+### For Rout grouping
+```php
+Route::group(['as' => 'user'], function () {
+    Route::post('/', [Controller::class, 'show']);
+});
+```
+
+
+### For add auth
+```php
+Route::group(['as' => 'user'], function () {
+    Route::post('/', [Controller::class, 'show']);
+})->middleware('auth:sanctum');
+
+```
