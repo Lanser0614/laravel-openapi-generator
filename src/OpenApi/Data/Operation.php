@@ -5,6 +5,7 @@ namespace Lanser\LaravelApiGenerator\OpenApi\Data;
 use Closure;
 use Exception;
 use Illuminate\Routing\Route;
+use Lanser\LaravelApiGenerator\OpenApi\Attributes\ErrorMessage;
 use Lanser\LaravelApiGenerator\OpenApi\Enum\HttpResponseEnum;
 use ReflectionClass;
 use ReflectionException;
@@ -32,6 +33,7 @@ class Operation extends Data
         /** @var null|DataCollection<int,SecurityScheme> */
         #[DataCollectionOf(SecurityScheme::class)]
         public ?DataCollection $security,
+        public ?array $errorMessages
     ) {
     }
 
@@ -76,13 +78,32 @@ class Operation extends Data
             $responses[HttpResponseEnum::HTTP_FORBIDDEN->value] = Response::forbidden($controller_function);
         }
 
+        $attributes = $controller_function->getAttributes();
+
+        if (count($attributes) > 0) {
+            /** @var \ReflectionAttribute $attribute */
+            $attribute = array_shift($attributes);
+            if (ErrorMessage::class === $attribute->getName()) {
+                $messages = $attribute->newInstance()->message;
+                if (count($messages) > 0) {
+                    $errorMessages = [
+                        $route->uri => $messages
+                    ];
+                } else {
+                    $errorMessages = null;
+                }
+            }
+        } else {
+            $errorMessages = null;
+        }
 
         return new self(
             description: $description,
             parameters: Parameter::fromRoute($route, $controller_function),
             requestBody: RequestBody::fromRoute($controller_function),
             responses: Response::collect($responses, DataCollection::class),
-            security: $security
+            security: $security,
+            errorMessages: $errorMessages
         );
     }
 

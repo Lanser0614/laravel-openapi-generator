@@ -147,6 +147,40 @@ class OpenApi extends Data
                 $key = array_key_first($paths['paths'][$uri]);
                 $paths['paths'][$uri][$key]['tags'] = $value;
             }
+
+            if ($first->errorMessages) {
+                $uri = array_key_first($first->errorMessages);
+                $value = array_values(array_shift($first->errorMessages));
+                $uri = '/'.$uri;
+                $key = array_key_first($paths['paths'][$uri]);
+
+                foreach ($value as $res) {
+                    $errors[] = [
+                        "type" => "object",
+                        "properties" => [
+                            "message" => [
+                                "type" => "string",
+                            ],
+                        ],
+                        "example" => [
+                            "message" => $res
+                        ]
+                    ];
+                }
+                $paths['paths'][$uri][$key]['responses'] += [
+                    500 => [
+                        "description" => 'Server errors',
+                        "content" => [
+                            "application/json" => [
+                                "schema" => [
+                                    "oneOf" => $errors
+                                ]
+                            ]
+                        ]
+                    ]];
+                unset($paths['paths'][$uri][$key]['errorMessages']);
+            }
+
         }
 
         return array_merge(

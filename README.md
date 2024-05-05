@@ -141,3 +141,21 @@ Route::group(['as' => 'user'], function () {
 })->middleware('auth:sanctum');
 
 ```
+
+
+### If you want documenting errors you can use Attribute ErrorMessage
+
+```php
+    use Lanser\LaravelApiGenerator\OpenApi\Attributes\ErrorMessage;
+
+
+    #[ErrorMessage(["User not found", "User is not active"])]
+    public function show(UserRequest $request): UserResponse
+    {
+        $user = User::query()->first();
+        return UserResponse::from($user);
+    }
+```
+ Click the schema if you want see what kind of exceptions have in this route 
+
+![img_2.png](img_2.png)
