@@ -91,6 +91,37 @@ class UserResponse extends ResponseData
 }
 ```
 
+
+## Example
+
+```php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\UserRequest;
+use App\Response\UserResponse;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+
+class Controller extends BaseController
+{
+    use AuthorizesRequests, ValidatesRequests;
+
+    /**
+     * @param UserRequest $request
+     * @return UserResponse
+     */
+    public function show(UserRequest $request): UserResponse
+    {
+        $user = User::query()->first();
+        return UserResponse::from($user);
+    }
+}
+
+```
+
 ### Final result
 ![img.png](img.png)
 
