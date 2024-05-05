@@ -7,7 +7,19 @@ Original `xolvio/laravel-data-openapi-generator`
 
 # Install
 
-`composer require lanser/laravel-api-generator`
+In `composer.json` add this repository:
+
+```json
+    "require": {
+          "lanser/laravel-openapi-generator" : "^1.5"
+    },
+```
+
+and
+
+```php
+    composer update
+```
 
 ## Version
 
