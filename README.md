@@ -75,7 +75,7 @@ class UserRequest extends RequestData
 
 
 
-#### On your request
+#### On your resource
 ```php
 use Lanser\LaravelApiGenerator\Response\ResponseData;
 
