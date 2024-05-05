@@ -77,7 +77,7 @@ class UserRequest extends RequestData
 
 #### On your request
 ```php
-use Lanser\LaravelApiGenerator\Request\ResponseData;
+use Lanser\LaravelApiGenerator\Response\ResponseData;
 
 class UserResponse extends ResponseData
 {
