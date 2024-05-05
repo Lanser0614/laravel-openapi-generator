@@ -68,6 +68,7 @@ class OpenApi extends Data
                     self::addTempSchemas();
 
                 } catch (Throwable $th) {
+                    $command->error("Failed to generate Operation from route {$method} {$route->getName()} {$uri}: {$th->getMessage()}");
 
                     Log::error($th);
                 }

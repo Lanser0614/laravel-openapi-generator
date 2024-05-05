@@ -4,6 +4,9 @@ Generate OpenAPI specification from Laravel routes and Laravel Data objects
 
 **This repository is just fork from original. Thanks to this person.**
 Original `xolvio/laravel-data-openapi-generator`
+and this package work with `spatie/laravel-data` and
+`phpdocumentor/reflection-docblock`
+
 
 # Install
 
@@ -42,3 +45,51 @@ Add a `app.version` config in `app.php` to set the version in the openapi specif
 ## View
 
 Swagger available at `APP_URL/api/openapi`
+
+#### On your request
+```php
+use Lanser\LaravelApiGenerator\Request\RequestData;
+
+class UserRequest extends RequestData
+{
+
+    public function __construct(
+        public string $name,
+        public string $email
+    )
+    {
+    }
+
+
+    public static function rules(ValidationContext $context): array
+    {
+        return [
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+        ];
+    }
+
+}
+```
+
+
+
+
+#### On your request
+```php
+use Lanser\LaravelApiGenerator\Request\ResponseData;
+
+class UserResponse extends ResponseData
+{
+
+    public function __construct(
+        public string $name,
+        public string $email
+    )
+    {
+    }
+}
+```
+
+### Final result
+![img.png](img.png)
