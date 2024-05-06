@@ -25,12 +25,12 @@ class Parameter extends Data
     /**
      * @param Route $route
      * @param ReflectionMethod|ReflectionFunction $method
-     * @return null|DataCollection<int,static>
+     * @return array|DataCollection|null
      * @throws Exception
      */
-    public static function fromRoute(Route $route, ReflectionMethod|ReflectionFunction $method): ?DataCollection
+    public static function fromRoute(Route $route, ReflectionMethod|ReflectionFunction $method): array|null|DataCollection
     {
-        /** @var string[] */
+        /** @var string[] $parameters */
         $parameters = $route->parameterNames();
 
         if (0 === count($parameters)) {

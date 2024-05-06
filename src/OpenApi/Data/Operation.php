@@ -25,7 +25,7 @@ class Operation extends Data
         public ?string $description,
         /** @var null|DataCollection<int,Parameter> */
         #[DataCollectionOf(Parameter::class)]
-        public ?DataCollection $parameters,
+        public array|null|DataCollection $parameters,
         public ?RequestBody    $requestBody,
         /** @var DataCollection<string,Response> */
         #[DataCollectionOf(Response::class)]

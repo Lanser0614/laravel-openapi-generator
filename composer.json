@@ -1,6 +1,6 @@
 {
     "name": "lanser/laravel-openapi-generator",
-    "version": "1.6.4",
+    "version": "1.6.5",
     "type": "library",
     "description": "Api swagger docs generater with spatia Laravel data",
     "require": {
